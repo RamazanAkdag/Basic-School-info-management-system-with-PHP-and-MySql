@@ -1,7 +1,7 @@
 <?php
     session_start();
     if(!isset($_SESSION["user_id"])){
-        header("location : login.php");
+        header("location : index.php");
         exit();
     }
     if($_SERVER["REQUEST_METHOD"] == "POST"){//form gönderildiğinde çalışır ve veri tabanına ekleme yapar
