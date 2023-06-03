@@ -3,7 +3,7 @@ session_start();
 
 // Kullanıcı oturumunu kontrol et
 if (!isset($_SESSION["user_id"])) {
-    header("Location: login.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -179,6 +179,79 @@ if ($result->num_rows == 1) {
                     </body>
                     </html>";
         }
+    }elseif($user["role"] == "admin"){
+
+        $sql = "SELECT * FROM admins WHERE user_id = $user_id";
+        $result = $conn->query($sql);
+
+        if($result->num_rows == 1){
+            $admin = $result->fetch_assoc();
+
+            echo "<!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Profil</title>
+                        <style>
+                            /* CSS stilleri */
+                            body {
+                                font-family: Arial, sans-serif;
+                                background-color: #f2f2f2;
+                                margin: 0;
+                                padding: 20px;
+                            }
+                            
+                            .profile-container {
+                                max-width: 500px;
+                                margin: 0 auto;
+                                background-color: #fff;
+                                padding: 20px;
+                                border-radius: 5px;
+                                box-shadow: 0 2px;
+                            }
+                            h1 {
+                                text-align: center;
+                            }
+                            
+                            .profile-info {
+                                margin-bottom: 20px;
+                            }
+                            
+                            .profile-info label {
+                                font-weight: bold;
+                            }
+                            
+                            .profile-info p {
+                                margin: 0;
+                            }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='profile-container'>
+                            <h1>Admin Profili</h1>
+                            
+                            <div class='profile-info'>
+                                <label>Ad:</label>
+                                <p>" . $admin["name"] . "</p>
+                            </div>
+                            
+                            <div class='profile-info'>
+                                <label>admin mail:</label>
+                                <p>" . $admin["email"] . "</p>
+                            </div>
+                            <div class='profile-info'>
+                                 <label><a href='addUser.php'>Kullanıcı Eklemek için Tıklayınız</a></label>
+                            </div>
+                            <div class='profile-info'>
+                                 <label><a href='removeUser.php'>Kullanıcı Silmek için Tıklayınız</a></label>
+                            </div>
+                        </div>
+                      
+                             
+                    
+                    </body>
+                    </html>";
+        }
+
     }
     
 }
