@@ -66,7 +66,7 @@
         <body>
             
             <div class='profile-container'>";
-            if($role = "student"){
+            if($role == "student"){
                 echo "<h1>Öğrenci Ekle</h1>
             
                 <form action='addUser.php' method='GET'>
@@ -79,6 +79,23 @@
                 <br><br>
                 <label for='grade'>sınıfı :</label>
                 <input type='number' id='grade' name='grade'>
+               
+                <input type='submit' value='Ekle'>
+            </form>";
+
+            }elseif($role == "teacher"){
+                echo "<h1>Öğretmen Ekle</h1>
+            
+                <form action='addUser.php' method='GET'>
+                <label for='username'>Kullanıcı Adı:</label>
+                <input type='text' id='username' name='username' value='$username' readonly>
+                <input type='hidden' id='user_id' name='user_id' value='$newUserId' readonly>
+                <br><br>
+                <label for='teacher_number'>öğretmen Numarası:</label>
+                <input type='number' id='teacher_number' name='teacher_number'>
+                <br><br>
+                <label for='department'>branşı :</label>
+                <input type='text' id='department' name='department'>
                
                 <input type='submit' value='Ekle'>
             </form>";
@@ -97,17 +114,31 @@
             exit();
 
     }elseif($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET["username"])){//user de eklenecek
-        $name = $_GET["username"];
-        $student_number = $_GET["student_number"];
-        $grade = $_GET["grade"];
-        $user_id = $_GET["user_id"];
-
-        $sql = "INSERT INTO students (name, student_number, grade,user_id) VALUES ('$name', '$student_number', '$grade','$user_id')";
-        if ($conn->query($sql) === TRUE) {
-            echo "Öğrenci başarıyla kaydedildi.";
-        } else {
-            echo "Hata: " . $sql . "<br>" . $conn->error;
+        if(isset($_GET["student_number"])){//öğrenci ise
+            $name = $_GET["username"];
+            $student_number = $_GET["student_number"];
+            $grade = $_GET["grade"];
+            $user_id = $_GET["user_id"];
+    
+            $sql = "INSERT INTO students (name, student_number, grade,user_id) VALUES ('$name', '$student_number', '$grade','$user_id')";
+            if ($conn->query($sql) === TRUE) {
+                echo "Öğrenci başarıyla kaydedildi.";
+            } else {
+                echo "Hata: " . $sql . "<br>" . $conn->error;
+            }
+        }elseif(isset($_GET["teacher_number"])){//eklenen öğretmen ise
+            $name = $_GET["username"];
+            $teacher_number = $_GET["teacher_number"];
+            $department = $_GET["department"];
+            $user_id = $_GET["user_id"];
+            $sql = "INSERT INTO teachers (name, teacher_number, department,user_id) VALUES ('$name', '$teacher_number', '$department','$user_id')";
+            if ($conn->query($sql) === TRUE) {
+                echo "Öğretmen başarıyla kaydedildi.";
+            } else {
+                echo "Hata: " . $sql . "<br>" . $conn->error;
+            }
         }
+       
 
 
 
@@ -167,7 +198,7 @@
             <br><br>
             <label for='role'>Rol:</label>
             <select id='role' name='role'>
-                <option value='admin'>Admin</option>
+                
                 <option value='teacher'>Öğretmen</option>
                 <option value='student'>Öğrenci</option>
             </select>

@@ -18,6 +18,7 @@ $result = $conn->query($sql);
 
 if ($result->num_rows == 1) {
     $user = $result->fetch_assoc();
+    //echo $user["role"];
 
     // Kullanıcı bilgilerini göster
     /*echo "<h2>Kullanıcı Bilgileri</h2>";
@@ -31,7 +32,7 @@ if ($result->num_rows == 1) {
         $sql = "SELECT * FROM students WHERE user_id = $user_id";
         $result = $conn->query($sql);
     
-        if ($result->num_rows == 1) {
+        if ($result->num_rows >0 ) {
             $student = $result->fetch_assoc();
     
             // Profil bilgilerini göster
@@ -114,7 +115,7 @@ if ($result->num_rows == 1) {
         $sql = "SELECT * FROM teachers WHERE user_id = $user_id";
         $result = $conn->query($sql);
     
-        if ($result->num_rows == 1) {
+        if ($result->num_rows > 0) {
             $teacher = $result->fetch_assoc();
     
             // Profil bilgilerini göster
@@ -184,7 +185,7 @@ if ($result->num_rows == 1) {
         $sql = "SELECT * FROM admins WHERE user_id = $user_id";
         $result = $conn->query($sql);
 
-        if($result->num_rows == 1){
+        if($result->num_rows >0  ){
             $admin = $result->fetch_assoc();
 
             echo "<!DOCTYPE html>
